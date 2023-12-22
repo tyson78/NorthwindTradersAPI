@@ -55,6 +55,9 @@ public class ProductController {
 
 
         System.out.println("Incoming product: " + product);
+
+        // TODO Put product in database
+
         Product p = new Product();
         System.out.println("Returned product: " + p);
 

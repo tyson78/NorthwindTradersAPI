@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "829240c4-da54-463c-b255-f0432d825e6b",
+		"name": "NorthwindAPI tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28194505",
+		"_collection_link": "https://cloudy-resonance-236751.postman.co/workspace/EasyShopBackend~9bc8bbe1-caa2-40e0-89aa-83caee2ccdd4/collection/28194505-829240c4-da54-463c-b255-f0432d825e6b?action=share&source=collection_link&creator=28194505"
+	},
+	"item": [
+		{
+			"name": "POST to products",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productName\": \"beets\",\r\n    \"categoryId\": 1,\r\n    \"unitPrice\": 34.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
