@@ -44,4 +44,27 @@ public class Product {
     public double getUnitPrice() {
         return unitPrice;
     }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Product{");
+        sb.append("productId=").append(productId);
+        sb.append(", productName='").append(productName).append('\'');
+        sb.append(", categoryId=").append(categoryId);
+        sb.append(", unitPrice=").append(unitPrice);
+        sb.append('}');
+        return sb.toString();
+    }
 }

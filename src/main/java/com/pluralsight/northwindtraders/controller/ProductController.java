@@ -5,6 +5,7 @@ import com.pluralsight.northwindtraders.model.Product;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class ProductController {
     /*
      *   FIELDS
      */
+
 
     private ProductDao productDao;
 
@@ -44,6 +46,19 @@ public class ProductController {
         if (p == null){
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
+        return p;
+    }
+
+    @RequestMapping(path="/products", method=RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product insert(@RequestBody Product product){
+
+
+        System.out.println("Incoming product: " + product);
+        Product p = new Product();
+        System.out.println("Returned product: " + p);
+
+
         return p;
     }
 }
