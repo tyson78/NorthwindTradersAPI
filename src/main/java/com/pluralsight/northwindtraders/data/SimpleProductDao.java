@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Primary
+// @Primary
 public class SimpleProductDao implements ProductDao {
 
     static List<Product> productList;

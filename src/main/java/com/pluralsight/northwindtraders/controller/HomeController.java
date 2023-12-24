@@ -11,5 +11,10 @@ public class HomeController {
     @RequestMapping(path="/", method= RequestMethod.GET)
     String sayHello(@RequestParam(defaultValue = "World") String country){
         return "Hello " + country + "!";
+        /* ex: http://localhost:8080/?country=usa
+        * outputs: Hello usa! */
     }
+
+
+
 }

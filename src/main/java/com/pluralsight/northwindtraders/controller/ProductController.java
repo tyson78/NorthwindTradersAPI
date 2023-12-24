@@ -5,6 +5,7 @@ import com.pluralsight.northwindtraders.model.Product;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,17 @@ public class ProductController {
         }
         return p;
     }
+    // to do
+// STOPPED HERE: pg 139/174 - filter by product name
+//    @RequestMapping(path="/products/", method = RequestMethod.GET)
+//    public Product findByName(@RequestParam(required = true) String name, HttpServletResponse response){
+//        Product p = productDao.getById(id);
+//
+//        if (p == null){
+//            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//        }
+//        return p;
+//    }
 
     @RequestMapping(path="/products", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)

@@ -2,18 +2,14 @@ package com.pluralsight.northwindtraders.model;
 
 public class Product {
 
-    /*
-     *   FIELDS
-     */
+    /* FIELDS aka Attributes aka Columns in SQL */
 
     private int productId;
     private String productName;
     private int categoryId;
     private double unitPrice;
 
-    /*
-     *   CONSTRUCTORS
-     */
+    /* CONSTRUCTORS */
 
     public Product() {
         this(0, "DefaultProductName", 0, 0.00);
@@ -26,9 +22,7 @@ public class Product {
         this.unitPrice = unitPrice;
     }
 
-    /*
-     *   METHODS
-     */
+    /* METHODS */
     public int getProductId() {
         return productId;
     }
