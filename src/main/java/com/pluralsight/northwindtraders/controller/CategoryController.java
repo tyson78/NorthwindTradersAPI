@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,18 @@ public class CategoryController {
     @RequestMapping(path="/categories/{id}", method = RequestMethod.GET)
     public Category findById(@PathVariable(name="id") int id, HttpServletResponse response){
         Category c = categoryDao.getById(id);
+
+        if (c == null){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return c;
+    }
+
+    @RequestMapping(path="/categories/name/{categoryName}", method = RequestMethod.GET)
+    public List<Category> findByCategoryName(@PathVariable(name = "categoryName") String categoryName, HttpServletResponse response) {
+
+        List<Category> c = new ArrayList<>();
+        c = categoryDao.getByCategoryName(categoryName);
 
         if (c == null){
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
