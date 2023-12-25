@@ -2,7 +2,6 @@ package com.pluralsight.northwindtraders.data;
 
 import com.pluralsight.northwindtraders.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -66,6 +65,68 @@ public class JdbcProductDao implements ProductDao {
         }
 
         return result;
+    }
+
+    @Override
+    public List<Product> getByName(String productName) {
+
+        List<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM products WHERE ProductName = ?;";
+
+        try (Connection c = dataSource.getConnection()){
+            PreparedStatement s = c.prepareStatement(sql);
+            s.setString(1, productName);
+            ResultSet rs = s.executeQuery();
+
+            while(rs.next()){
+                results.add(new Product(rs.getInt("ProductId"), rs.getString("ProductName"), rs.getInt("CategoryId"), rs.getDouble("UnitPrice")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return results;
+    }
+
+    @Override
+    public List<Product> getByCategoryId(int categoryId) {
+
+        List<Product> results = new ArrayList<>();
+
+        String sql = "SELECT * FROM Products WHERE CategoryID = ?;";
+
+        try (Connection c = dataSource.getConnection()) {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, categoryId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                results.add(new Product(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getInt("CategoryID"), rs.getDouble("UnitPrice")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return results;
+    }
+
+    @Override
+    public List<Product> getByPrice(double productPrice) {
+        List<Product> results = new ArrayList<>();
+        String sql = "SELECT * FROM Products WHERE UnitPrice = ?;";
+
+        try (Connection c = dataSource.getConnection()) {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setDouble(1, productPrice);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                results.add(new Product(rs.getInt("ProductID"), rs.getString("ProductName"), rs.getInt("CategoryID"), rs.getDouble("UnitPrice")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return results;
     }
 
 }

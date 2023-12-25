@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -49,17 +50,44 @@ public class ProductController {
         }
         return p;
     }
-    // to do
-// STOPPED HERE: pg 139/174 - filter by product name
-//    @RequestMapping(path="/products/", method = RequestMethod.GET)
-//    public Product findByName(@RequestParam(required = true) String name, HttpServletResponse response){
-//        Product p = productDao.getById(id);
-//
-//        if (p == null){
-//            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//        }
-//        return p;
-//    }
+
+    // workbook9 pg 139/174 - filter by product name
+    // outputs: http://localhost:8080/products/name/geitost
+    @RequestMapping(path="/products/name/{productName}", method = RequestMethod.GET)
+    public List<Product> findByName(@PathVariable(name = "productName") String productName, HttpServletResponse response){
+
+        List<Product> p = new ArrayList<>();
+        p = productDao.getByName(productName);
+
+        if (p == null){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return p;
+    }
+
+    // workbook9 pg 139/174 - filter by categoryID
+    // outputs: http://localhost:8080/products/category/2
+    @RequestMapping(path="/products/category/{id}", method = RequestMethod.GET)
+    public List<Product> findByCategoryID(@PathVariable(name="id") int id, HttpServletResponse response){
+        List<Product> p = productDao.getByCategoryId(id);
+
+        if (p == null){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return p;
+    }
+
+    // workbook9 pg 139/174 - filter by price
+    // outputs: http://localhost:8080/price/2.99
+    @RequestMapping(path="/products/price/{price}", method = RequestMethod.GET)
+    public List<Product> findByPrice(@PathVariable(name="price") int price, HttpServletResponse response){
+        List<Product> p = productDao.getByPrice(price);
+
+        if (p == null){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return p;
+    }
 
     @RequestMapping(path="/products", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)

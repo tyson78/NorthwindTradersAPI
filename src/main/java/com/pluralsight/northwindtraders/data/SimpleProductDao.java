@@ -1,7 +1,6 @@
 package com.pluralsight.northwindtraders.data;
 
 import com.pluralsight.northwindtraders.model.Product;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -39,6 +38,21 @@ public class SimpleProductDao implements ProductDao {
         if (op.isPresent()) p = op.get();
 
         return p;
+    }
+
+    @Override
+    public List<Product> getByName(String productName) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getByCategoryId(int categoryId) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getByPrice(double productPrice) {
+        return null;
     }
 
 
