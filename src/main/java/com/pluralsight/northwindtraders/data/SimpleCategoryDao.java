@@ -4,11 +4,12 @@ import com.pluralsight.northwindtraders.model.Category;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Primary
+// @Primary
 public class SimpleCategoryDao implements CategoryDao {
 
     /*
@@ -46,4 +47,10 @@ public class SimpleCategoryDao implements CategoryDao {
     public List<Category> getAll() {
         return categoriesList;
     }
+
+    @Override
+    public List<Category> getByCategoryName(String categoryName) {
+        return null;
+    }
+
 }

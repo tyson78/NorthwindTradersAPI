@@ -4,42 +4,45 @@ import com.pluralsight.northwindtraders.data.CategoryDao;
 import com.pluralsight.northwindtraders.data.ProductDao;
 import com.pluralsight.northwindtraders.model.Category;
 import com.pluralsight.northwindtraders.model.Product;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
 public class CategoryController {
-    /*
-     *   FIELDS
-     */
+    /* FIELDS */
 
     private CategoryDao categoryDao;
 
-
-    /*
-     *   CONSTRUCTORS
-     */
+    /* CONSTRUCTORS */
 
     @Autowired
     public CategoryController(CategoryDao categoryDao){
         this.categoryDao = categoryDao;
     }
 
-    /*
-     *   METHODS
-     */
+    /* METHODS */
 
+    // output: http://localhost:8080/categories
     @RequestMapping(path="/categories", method = RequestMethod.GET)
     public List<Category> findAll(){
         return categoryDao.getAll();
     }
 
+    // output: http://localhost:8080/categories/8
     @RequestMapping(path="/categories/{id}", method = RequestMethod.GET)
-    public Category findById(@PathVariable(name="id") int id){
-        return categoryDao.getById(id);
+    public Category findById(@PathVariable(name="id") int id, HttpServletResponse response){
+        Category c = categoryDao.getById(id);
+
+        if (c == null){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+        return c;
     }
 
 }

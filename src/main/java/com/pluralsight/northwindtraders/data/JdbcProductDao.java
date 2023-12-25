@@ -47,7 +47,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public Product getById(int productid) {
-        // TODO submit this sql to the database
+
         String sql = "SELECT * FROM products WHERE ProductId = ?;";
 
         Product result = null;
@@ -63,7 +63,6 @@ public class JdbcProductDao implements ProductDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return result;
     }
 

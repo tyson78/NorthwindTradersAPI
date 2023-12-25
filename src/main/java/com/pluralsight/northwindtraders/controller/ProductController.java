@@ -15,32 +15,26 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    /*
-     *   FIELDS
-     */
-
+    /* FIELDS */
 
     private ProductDao productDao;
 
-
-    /*
-     *   CONSTRUCTORS
-     */
+    /* CONSTRUCTORS */
 
     @Autowired
     public ProductController(ProductDao productDao) {
         this.productDao = productDao;
     }
 
-    /*
-     *   METHODS
-     */
+    /* METHODS */
 
+    // GET all products
     @RequestMapping(path="/products", method = RequestMethod.GET)
     public List<Product> findAll(){
         return productDao.getAll();
     }
 
+    // GET by product ID
     @RequestMapping(path="/products/{id}", method = RequestMethod.GET)
     public Product findById(@PathVariable(name="id") int id, HttpServletResponse response){
         Product p = productDao.getById(id);
@@ -51,7 +45,7 @@ public class ProductController {
         return p;
     }
 
-    // workbook9 pg 139/174 - filter by product name
+    // workbook9 pg 139/174 - GET by product name
     // outputs: http://localhost:8080/products/name/geitost
     @RequestMapping(path="/products/name/{productName}", method = RequestMethod.GET)
     public List<Product> findByName(@PathVariable(name = "productName") String productName, HttpServletResponse response){
@@ -65,7 +59,7 @@ public class ProductController {
         return p;
     }
 
-    // workbook9 pg 139/174 - filter by categoryID
+    // workbook9 pg 139/174 - GET by categoryID
     // outputs: http://localhost:8080/products/category/2
     @RequestMapping(path="/products/category/{id}", method = RequestMethod.GET)
     public List<Product> findByCategoryID(@PathVariable(name="id") int id, HttpServletResponse response){
@@ -77,7 +71,7 @@ public class ProductController {
         return p;
     }
 
-    // workbook9 pg 139/174 - filter by price
+    // workbook9 pg 139/174 - GET by price
     // outputs: http://localhost:8080/price/2.99
     @RequestMapping(path="/products/price/{price}", method = RequestMethod.GET)
     public List<Product> findByPrice(@PathVariable(name="price") int price, HttpServletResponse response){
@@ -89,10 +83,10 @@ public class ProductController {
         return p;
     }
 
+    // POST into the database using Postman
     @RequestMapping(path="/products", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Product insert(@RequestBody Product product){
-
 
         System.out.println("Incoming product: " + product);
 
