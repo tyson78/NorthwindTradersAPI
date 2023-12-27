@@ -55,5 +55,20 @@ public class SimpleProductDao implements ProductDao {
         return null;
     }
 
+    @Override
+    public Product insert(Product product) {
+        return null;
+    }
+
+    @Override
+    public void update(int productid, Product product) {
+
+    }
+
+    @Override
+    public void delete(int productid) {
+
+    }
+
 
 }

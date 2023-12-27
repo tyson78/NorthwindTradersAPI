@@ -10,13 +10,15 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
+// DatabaseConfig creates a dataSource bean that is injectable
 @Configuration
 public class DatabaseConfig {
 
     private BasicDataSource basicDataSource;
     private Logger logger;
 
-    @Bean
+    @Bean // @bean means this dataSource method(returns basicDataSource) can be injected somewhere else
+    // dataSource bean is usually injected to DAO classes
     public DataSource dataSource(){
         return basicDataSource;
     }

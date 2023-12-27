@@ -13,4 +13,6 @@ public interface CategoryDao {
 
     List<Category> getByCategoryName(String categoryName);
 
+    Category insertCategory(Category category);
+
 }

@@ -6,20 +6,18 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+// JDBC implementation of ProductDao interface to communicate with database
+@Component // @Component indicates this class is injectable somewhere else by @Autowired, usually in Controller class
 @Primary
 public class JdbcProductDao implements ProductDao {
 
     private DataSource dataSource;
 
-    @Autowired
+    @Autowired // injecting dataSource bean here from dataSource() in DatabaseConfig
     public JdbcProductDao(DataSource dataSource){
         this.dataSource = dataSource;
     }
@@ -126,6 +124,77 @@ public class JdbcProductDao implements ProductDao {
             throw new RuntimeException(e);
         }
         return results;
+    }
+
+    @Override
+    public Product insert(Product product) {
+        Product result = null;
+
+        String sql = """
+                INSERT INTO Products (ProductName, CategoryID, UnitPrice)
+                VALUES (?, ?, ?);
+                """;
+
+        try (Connection c = dataSource.getConnection()) {
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, product.getProductName());
+            ps.setInt(2, product.getCategoryId());
+            ps.setDouble(3, product.getUnitPrice());
+
+            ps.executeUpdate(); // returns number of records that were affected
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                while (rs.next()) {
+                    result = new Product(rs.getInt(1), product.getProductName(), product.getCategoryId(), product.getUnitPrice());
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    // REST method: PUT
+    // updating a record in database
+    @Override
+    public void update(int productID, Product product) {
+        String sql = """
+                UPDATE Products
+                SET ProductName = ?, UnitPrice = ?
+                WHERE ProductID = ?;
+                """;
+        try (Connection c = dataSource.getConnection()) {
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, product.getProductName());
+            ps.setDouble(2, product.getUnitPrice());
+            ps.setInt(3, productID);
+
+            ps.executeUpdate(); // returns number of records that were affected
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // REST method: DELETE
+    // Deleting a record in database
+    @Override
+    public void delete(int productID) {
+        String sql = """
+                DELETE FROM Products
+                WHERE ProductID = ?;
+                """;
+        try (Connection c = dataSource.getConnection()) {
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, productID);
+
+            ps.executeUpdate();
+            // Executes the given SQL statement, which may be an INSERT, UPDATE, or DELETE statement
+            // or an SQL statement that returns nothing, such as an SQL DDL statement.
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

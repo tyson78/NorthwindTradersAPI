@@ -53,4 +53,9 @@ public class SimpleCategoryDao implements CategoryDao {
         return null;
     }
 
+    @Override
+    public Category insertCategory(Category category) {
+        return null;
+    }
+
 }

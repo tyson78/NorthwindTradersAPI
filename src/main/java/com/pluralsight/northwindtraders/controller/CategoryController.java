@@ -6,10 +6,8 @@ import com.pluralsight.northwindtraders.model.Category;
 import com.pluralsight.northwindtraders.model.Product;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ public class CategoryController {
 
     /* CONSTRUCTORS */
 
-    @Autowired
+    @Autowired // injecting CategoryDao bean here in the constructor
     public CategoryController(CategoryDao categoryDao){
         this.categoryDao = categoryDao;
     }
@@ -55,6 +53,20 @@ public class CategoryController {
         if (c == null){
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
+        return c;
+    }
+
+    // POST into the database using Postman
+    @RequestMapping(path="/categories", method=RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Category insert(@RequestBody Category category){
+
+        System.out.println("Incoming category: " + category);
+
+        // TODO Put product in database
+        Category c = categoryDao.insertCategory(category);
+        System.out.println("Returned category: " + c);
+
         return c;
     }
 

@@ -1,6 +1,7 @@
 package com.pluralsight.northwindtraders.data;
 
 import com.pluralsight.northwindtraders.model.Category;
+import com.pluralsight.northwindtraders.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
+// JDBC implementation of CategoryDao interface to communicate with database
 @Component
 @Primary
 public class JdbcCategoryDao implements CategoryDao {
@@ -83,5 +85,32 @@ public class JdbcCategoryDao implements CategoryDao {
             throw new RuntimeException(e);
         }
         return results;
+    }
+
+    @Override
+    public Category insertCategory(Category category) {
+        Category result = null;
+
+        String sql = """
+                INSERT INTO Categories (CategoryName, Description)
+                VALUES (?, ?);
+                """;
+
+        try (Connection c = dataSource.getConnection()) {
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, category.getCategoryName());
+            ps.setString(2, category.getCategoryDescription());
+
+            ps.executeUpdate(); // returns number of records that were affected
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                while (rs.next()) {
+                    result = new Category(rs.getInt(1), category.getCategoryName(), category.getCategoryDescription());
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 }
